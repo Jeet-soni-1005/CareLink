@@ -44,7 +44,7 @@ mongoose
 
 // Home page request 
 app.get('/', (req, res, next) => {
-  res.render("homee");
+  res.render("home");
 });
 
 // Login page request
