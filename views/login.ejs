@@ -1,0 +1,365 @@
+<!-- views/login.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login / Register - CareLink</title>
+    <!-- Toastify CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <!-- Toastify JS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50 flex justify-center items-center mt-20">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md fixed w-full top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center p-4">
+            <a href="/" class="text-2xl font-bold text-blue-600">CareLink</a>
+            <div class="space-x-6">
+                <a href="/" class="hover:text-blue-600">About</a>
+                <a href="/finddoctors" class="hover:text-blue-600 ">Find Doctors</a>
+                <a href="#" class="hover:text-gray-400">Hospitals</a>
+                <a href="#" class="hover:text-gray-400">Medicines</a>
+                <a href="#" class="hover:text-gray-400">Blog</a>
+                <a href="/login" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-500 transition font-semibold">Login/Register</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <!-- User Type Selection -->
+        <div class="flex justify-center mb-6">
+            <button id="patientBtn" class="tab-btn bg-blue-600 text-white px-4 py-2 rounded-l">Patient Side</button>
+            <button id="doctorBtn" class="tab-btn bg-gray-300 text-gray-700 px-4 py-2 rounded-r">Doctor Side</button>
+        </div>
+
+        <!-- Sign In / Sign Up Toggle -->
+        <h2 id="formTitle" class="text-2xl font-semibold text-center mb-4">Sign In</h2>
+
+        <!-- Form -->
+        <form id="authForm" class="space-y-4" method="POST" action="/auth/login">
+            <!-- Hidden info -->
+            <input type="hidden" id="userType" name="userType" value="patient"> <!-- Default -->
+            <input type="hidden" id="formAction" name="formAction" value="login"> <!-- login/register -->
+
+            <!-- Common for Login & Register -->
+            <div>
+                <label for="email" class="block text-gray-700">Email</label>
+                <input type="email" id="email" name="email" class="border p-2 w-full rounded" required>
+            </div>
+
+            <div>
+                <label for="password" class="block text-gray-700">Password</label>
+                <input type="password" id="password" name="password" class="border p-2 w-full rounded" required>
+            </div>
+
+            <!-- Additional Fields (For Registration) -->
+            <div id="extraFields" class="hidden">
+
+                <!-- Common Fields for Both Patient and Doctor -->
+                <div>
+                    <label for="name" class="block text-gray-700">Name</label>
+                    <input type="text" id="name" name="name" class="border p-2 w-full rounded">
+                </div>
+
+                <div>
+                    <label for="phone" class="block text-gray-700">Phone</label>
+                    <input type="text" id="phone" name="phone" class="border p-2 w-full rounded">
+                </div>
+
+                <div>
+                    <label for="address" class="block text-gray-700">Address</label>
+                    <input type="text" id="address" name="address" class="border p-2 w-full rounded">
+                </div>
+
+                <!-- Patient-Specific Fields -->
+                <div id="patientFields" class="hidden">
+                    <label for="age" class="block text-gray-700">Age</label>
+                    <input type="number" id="age" name="age" class="border p-2 w-full rounded">
+                </div>
+
+                <!-- Doctor-Specific Fields -->
+                <div id="doctorFields" class="hidden space-y-4">
+                    <div>
+                        <label for="specialization" class="block text-gray-700">Specialization</label>
+                        <input type="text" id="specialization" name="specialization" class="border p-2 w-full rounded">
+                    </div>
+
+                    <div>
+                        <label for="experience" class="block text-gray-700">Experience (Years)</label>
+                        <input type="number" id="experience" name="experience" class="border p-2 w-full rounded">
+                    </div>
+
+                    <div>
+                        <label for="supportives" class="block text-gray-700">Supportive Document</label>
+                        <input type="text" id="supportives" name="supportives" class="border p-2 w-full rounded">
+                    </div>
+
+                    <div>
+                        <label for="qualification" class="block text-gray-700">Qualification</label>
+                        <input type="text" id="qualification" name="qualification" class="border p-2 w-full rounded">
+                    </div>
+
+                    <!-- Doctor Time Slot -->
+                    <div>
+                        <label for="availableDays" class="block text-gray-700">Available Days</label>
+                        <select id="availableDays" name="availableDays"class="border p-2 w-full rounded" multiple>
+                            <option value="Monday">Monday</option>
+                            <option value="Tuesday">Tuesday</option>
+                            <option value="Wednesday">Wednesday</option>
+                            <option value="Thursday">Thursday</option>
+                            <option value="Friday">Friday</option>
+                            <option value="Saturday">Saturday</option>
+                            <option value="Sunday">Sunday</option>
+                        </select>
+                        <small class="text-gray-500">Hold Ctrl (Windows) or Command (Mac) to select multiple days</small>
+                    </div>
+
+                    <div>
+                        <label for="startTime" class="block text-gray-700">Start Time</label>
+                        <input type="time" id="startTime" name="startTime" class="border p-2 w-full rounded">
+                    </div>
+
+                    <div>
+                        <label for="endTime" class="block text-gray-700">End Time</label>
+                        <input type="time" id="endTime" name="endTime" class="border p-2 w-full rounded">
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" id="submitButton" class="bg-blue-600 text-white w-full p-2 rounded hover:bg-blue-700 transition">
+                Login
+            </button>
+        </form>
+
+        <!-- Toggle Sign In / Sign Up -->
+        <div class="mt-4 text-center">
+            <p id="toggleText" class="text-gray-600">
+                Don't have an account?
+                <span id="toggleLink" class="text-blue-600 cursor-pointer hover:underline">Sign Up</span>
+            </p>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script>
+        
+
+        const patientBtn = document.getElementById('patientBtn');
+        const doctorBtn = document.getElementById('doctorBtn');
+        const formTitle = document.getElementById('formTitle');
+        const submitButton = document.getElementById('submitButton');
+        const toggleText = document.getElementById('toggleText');
+        const extraFields = document.getElementById('extraFields');
+        const patientFields = document.getElementById('patientFields');
+        const doctorFields = document.getElementById('doctorFields');
+        const authForm = document.getElementById('authForm');
+        const userTypeInput = document.getElementById('userType');
+        const formActionInput = document.getElementById("formAction");
+
+        let isSignUp = false;
+        let isDoctor = false;
+
+        // Switch between Patient and Doctor tabs
+        patientBtn.addEventListener('click', () => {
+            isDoctor = false;
+            updateTabUI();
+            updateFormFields();
+        });
+
+        doctorBtn.addEventListener('click', () => {
+            isDoctor = true;
+            updateTabUI();
+            updateFormFields();
+        });
+
+        function updateTabUI() {
+            if (isDoctor) {
+                doctorBtn.classList.add('bg-blue-600', 'text-white');
+                doctorBtn.classList.remove('bg-gray-300', 'text-gray-700');
+
+                patientBtn.classList.add('bg-gray-300', 'text-gray-700');
+                patientBtn.classList.remove('bg-blue-600', 'text-white');
+                
+                userTypeInput.value = "doctor";  // Update hidden input
+            } else {
+                patientBtn.classList.add('bg-blue-600', 'text-white');
+                patientBtn.classList.remove('bg-gray-300', 'text-gray-700');
+
+                doctorBtn.classList.add('bg-gray-300', 'text-gray-700');
+                doctorBtn.classList.remove('bg-blue-600', 'text-white');
+                
+                userTypeInput.value = "patient";  // Update hidden input
+            }
+        }
+        function updateFormFields() {
+            if (isSignUp) {
+                if (isDoctor) {
+                    patientFields.classList.add('hidden');
+                    doctorFields.classList.remove('hidden');
+                } else {
+                    doctorFields.classList.add('hidden');
+                    patientFields.classList.remove('hidden');
+                }
+            } else {
+                doctorFields.classList.add('hidden');
+                patientFields.classList.add('hidden');
+            }
+        }
+
+        toggleLink.addEventListener("click", () => {
+            isSignUp = !isSignUp; // Toggle the sign-in/sign-up state
+
+            if (isSignUp) {
+                formTitle.textContent = "Sign Up";
+                submitButton.textContent = "Register";
+                extraFields.classList.remove("hidden"); // Show extra fields
+                formActionInput.value = "register"; // Update hidden input field
+                toggleText.innerHTML = `Already have an account? <span id="toggleLink" class="text-blue-600 cursor-pointer hover:underline">Sign In</span>`;
+                updateFormFields();
+            } else {
+                formTitle.textContent = "Sign In";
+                submitButton.textContent = "Login";
+                extraFields.classList.add("hidden"); // Hide extra fields
+                formActionInput.value = "login"; // Update hidden input field
+                toggleText.innerHTML = `Don't have an account? <span id="toggleLink" class="text-blue-600 cursor-pointer hover:underline">Sign Up</span>`;
+                updateFormFields();
+            }
+        });
+
+        authForm.addEventListener('submit', async function (event) {
+            if (isSignUp) {
+                document.getElementById('formAction').value = 'register';
+
+                if (isDoctor) {
+                    authForm.action = '/auth/register/doctor';
+                    userTypeInput.value = 'doctor';
+                } else {
+                    authForm.action = '/auth/register/patient';
+                    userTypeInput.value = 'patient';
+                }
+            } else {
+                authForm.action = '/auth/login';
+                document.getElementById('formAction').value = 'login';
+            }
+            event.preventDefault(); // Prevent default form submission
+
+
+            const name = document.getElementById("name").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value.trim();
+            const phone = document.getElementById("phone").value.trim();  // Get value
+            const address = document.getElementById("address").value.trim();  // Get value
+            const age = Number(document.getElementById("age").value.trim());  // Convert to number
+            const specialization = document.getElementById("specialization").value.trim();  // Get value
+            const experience = document.getElementById("experience").value.trim();  // Get value
+            const qualification = document.getElementById("qualification").value.trim();  // Get value
+            const availableDays = document.getElementById("availableDays").value.trim();  // Get value
+            const startTime = document.getElementById("startTime").value.trim();  // Get value
+            const endTime= document.getElementById("endTime").value.trim();  // Get value
+            const supportives= document.getElementById("supportives").value.trim();  // Get value
+
+            // Dynamically set the endpoint based on user type
+            //const endpoint = formActionInput.value === "login" ? "/auth/login" : (userTypeInput.value ==="patient" ? "/auth/register/patient" : "/auth/register/doctor");
+
+            try {
+                let response;
+                let data;
+                if(formActionInput.value === "login"){
+                    response = await fetch("/auth/login", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ email, password, userTypeInput })
+                    });
+                    data = await response.json();
+                    if (!response.ok) {
+                        throw new Error(data.message || "Registration failed");
+                    }
+                    // ✅ Success Toast
+                    Toastify({
+                        text: "Login successful!",
+                        duration: 3000,
+                        gravity: "top",
+                        position: "top-center",
+                        backgroundColor: "green",
+                    }).showToast();
+                    // Redirect to login after successful registration
+                    setTimeout(() => {
+                        window.location.href = "/";
+                    }, 2000);
+
+                }else if(!isDoctor){
+                    response = await fetch("/auth/register/patient", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ name, email, password, phone: phone ? String(phone) : "", address: address ? String(address) : "", age: Number(age) || 0})
+                    });
+                    data = await response.json();
+                    if (!response.ok) {
+                        throw new Error(data.message || "Registration failed");
+                    }
+
+                    // ✅ Success Toast
+                    Toastify({
+                        text: "Registration successful!",
+                        duration: 3000,
+                        gravity: "top",
+                        position: "top-center",
+                        backgroundColor: "green",
+                    }).showToast();
+                     // Redirect to login after successful registration
+                     setTimeout(() => {
+                        window.location.href = "/login";
+                    }, 2000);
+
+                }else{
+                    response = await fetch("/auth/register/doctor", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ name, email, password, phone, address, specialization, experience, qualification, availableDays, startTime, endTime, supportives })
+                    });
+                    data = await response.json();
+                    if (!response.ok) {
+                        throw new Error(data.message || "Registration failed");
+                    }
+
+                    // ✅ Success Toast
+                    Toastify({
+                        text: "Registration successful!",
+                        duration: 3000,
+                        gravity: "top",
+                        position: "top-center",
+                        backgroundColor: "green",
+                    }).showToast();
+                     // Redirect to login after successful registration
+                     setTimeout(() => {
+                        window.location.href = "/login";
+                    }, 2000);
+
+                }
+
+            } catch (error) {
+                // ❌ Error Toast
+                Toastify({
+                    text: error.message,
+                    duration: 3000,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: "red",
+                }).showToast();
+                 // Redirect to login after successful registration
+                 setTimeout(() => {
+                        window.location.href = "/login";
+                    }, 2000);
+            }
+        });
+    </script>
+
+</body>
+
+</html>

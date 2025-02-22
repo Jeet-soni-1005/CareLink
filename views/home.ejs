@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareLink - Find Your Doctor Easily</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-2xl fixed w-full top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center p-4">
+            <a href="/" class="text-2xl font-bold text-blue-600">CareLink</a>
+            <div class="space-x-6">
+                <a href="#about" class="hover:text-blue-600">About</a>
+                <a href="/finddoctors" class="hover:text-blue-600">Find Doctors</a>
+                <a href="/hospitals" class="hover:text-blue-600">Hospitals</a>
+                <a href="/medicines" class="hover:text-blue-600">Medicines</a>
+                <a href="/blog" class="hover:text-blue-600">Blog</a>
+                <% if (user) { %>
+                    <a href="/logout" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-500 transition">Logout</a>
+                <% } else { %>
+                    <a href="/login" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-500 transition">Login/Register</a>
+                <% } %>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="h-screen flex flex-col justify-center items-center text-center bg-gradient-to-l from-blue-100 to-blue-400 text-blue pt-16">
+        <h1 class="text-5xl font-extrabold mb-4">Find Trusted Doctors Easily</h1>
+        <p class="text-lg max-w-xl">Connecting patients with experienced doctors. Book appointments, get medical advice, and ensure your health is in the right hands.</p>
+        <img src="/images/doctor1.jpg" alt="Doctor2" class="w-1/3 mt-6 rounded-lg shadow-xl"> </img>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-16 bg-blue-100 text-center">
+        <h2 class="text-4xl font-bold text-gray-800 mb-4">Our Vision & Mission</h2>
+        <p class="text-lg text-gray-600 max-w-3xl mx-auto">At CareLink, we aim to make healthcare accessible by connecting patients with the right doctors. Our platform ensures a smooth and reliable experience for booking appointments and managing healthcare needs.</p>
+        <img src="/images/doctor2.jpg" alt="Healthcare Vision" class="w-1/3 mx-auto mt-6 rounded-lg shadow-md"> <!-- Replace with your image -->
+    </section>
+
+    <!-- Stats Section -->
+    <section class="bg-blue-50 py-12">
+        <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <div class="p-6 bg-white shadow-xl rounded-lg">
+                <h3 class="text-4xl font-bold text-blue-800">100+</h3>
+                <p class="text-gray-600">Verified Doctors</p>
+            </div>
+            <div class="p-6 bg-white shadow-xl rounded-lg">
+                <h3 class="text-4xl font-bold text-blue-800">500+</h3>
+                <p class="text-gray-600">Happy Patients</p>
+            </div>
+            <div class="p-6 bg-white shadow-xl rounded-lg">
+                <h3 class="text-4xl font-bold text-blue-800">30+</h3>
+                <p class="text-gray-600">Partnered Hospitals</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto text-center">
+            <h2 class="text-4xl font-bold text-gray-800 mb-6">Our Services</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <a href="/finddoctors" class="block p-6 bg-blue-100 rounded-lg shadow-md hover:bg-blue-200">
+                    <img src="/images/doctor1.jpg" alt="Find Doctors" class="w-40 mx-auto mb-4"> <!-- Replace with your image -->
+                    <h3 class="text-2xl font-bold text-blue-800">Find Doctors</h3>
+                    <p class="text-gray-600">Browse and book appointments with trusted medical professionals.</p>
+                </a>
+                <a href="#" class="block p-6 bg-blue-100 rounded-lg shadow-md hover:bg-blue-200">
+                    <img src="/images/hospital.jpg" alt="Hospitals" class="w-40 mx-auto mb-4"> <!-- Replace with your image -->
+                    <h3 class="text-2xl font-bold text-blue-800">Hospitals</h3>
+                    <p class="text-gray-600">Find top-rated hospitals for treatments and emergencies.</p>
+                </a>
+                <a href="#" class="block p-6 bg-blue-100 rounded-lg shadow-md hover:bg-blue-200">
+                    <img src="/images/medicine.jpg" alt="Medicines" class="w-40 mx-auto mb-4"> <!-- Replace with your image -->
+                    <h3 class="text-2xl font-bold text-blue-800">Medicines</h3>
+                    <p class="text-gray-600">Order medicines online and get doorstep delivery.</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white text-center py-6">
+        <p class="text-lg">&copy; 2025 CareLink. All rights reserved.</p>
+    </footer>
+</body>
+</html>
